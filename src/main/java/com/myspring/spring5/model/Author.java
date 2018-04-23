@@ -1,6 +1,7 @@
 package com.myspring.spring5.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -13,18 +14,14 @@ public class Author {
     private String firstName;
     private String lastName;
 
-
-
-    @ManyToMany
-    @JoinTable(name = "author_book" , joinColumns = @JoinColumn(name = "author_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private Set<Book> book;
+    @ManyToMany(mappedBy = "authors")
+    private Set<Book> books = new HashSet<>(0);
 
     public Author(){}
 
-    public Author(String firstName, String lastName, Set<Book> bookSet) {
+    public Author(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.book = bookSet;
     }
 
     @Override
@@ -47,7 +44,7 @@ public class Author {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", book=" + book +
+
                 '}';
     }
 
@@ -67,12 +64,12 @@ public class Author {
         this.lastName = lastName;
     }
 
-    public Set<Book> getBookSet() {
-        return book;
+    public Set<Book> getBooks() {
+        return books;
     }
 
-    public void setBook(Set<Book> bookSet) {
-        this.book = bookSet;
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 
     public Long getId() {
